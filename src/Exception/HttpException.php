@@ -10,10 +10,10 @@
     namespace UniApiClient\Exception;
 
     use UniApiClient\Enum\HttpErrorCode;
-    use UniApiClient\Exception\Exception;
     use Psr\Http\Message\RequestInterface;
     use Psr\Http\Message\ResponseInterface;
     use GuzzleHttp\Exception\RequestException;
+    use UniApiClient\Interfaces\ExceptionInterface as Exception;
 
     /**
      * Class HttpException

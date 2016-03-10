@@ -4,11 +4,11 @@
      * Created by PhpStorm.
      * User: jkirkby91
      * Date: 10/03/2016
-     * Time: 15:10
+     * Time: 17:23
      */
 
-    namespace UniApiClient\Exception;
+    namespace UniApiClient;
 
-    interface Exception {
+    class HttpResponseClient {
 
     }
