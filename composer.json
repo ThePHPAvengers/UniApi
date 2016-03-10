@@ -2,7 +2,7 @@
   "name": "jkirkby91/universal-api-client",
   "type": "library",
   "description": "universal-api-client",
-  "keywords": [ "api,api client,php api,php api client" ],
+  "keywords": [ "api,client,php" ],
   "homepage": "https://github.com/jkirkby91/universal-api-client",
   "license": "MIT",
   "authors": [
