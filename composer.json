@@ -1,0 +1,25 @@
+{
+  "name": "jkirkby91/universal-api-client",
+  "type": "library",
+  "description": "universal-api-client",
+  "keywords": [ "api,api client,php api,php api client" ],
+  "homepage": "https://github.com/jkirkby91/universal-api-client",
+  "license": "MIT",
+  "authors": [
+    { "name": "jkirkby91", "email": "jkirkby91@gmail.com" }
+  ],
+  "require": {
+    "php": ">=5.5.0",
+    "guzzlehttp/guzzle": "^6.0",
+    "psr/http-message": "^1.0",
+    "psr/log": "^1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^4.7"
+  },
+  "autoload": {
+    "psr-4": {
+      "UniApiClient\\": "src"
+    }
+  }
+}
