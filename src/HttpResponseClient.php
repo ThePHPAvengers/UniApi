@@ -9,6 +9,16 @@
 
     namespace UniApiClient;
 
+    use Psr\Http\Message\ResponseInterface;
+    use UniApiClient\Helpers\ResponseHelper;
+
+    /**
+     * Class HttpResponseClient
+     *
+     * @package UniApiClient
+     */
     class HttpResponseClient {
+
+        use ResponseHelper;
 
     }

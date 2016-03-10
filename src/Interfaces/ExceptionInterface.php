@@ -9,6 +9,11 @@
 
     namespace UniApiClient\Interfaces;
 
+    /**
+     * Interface ExceptionInterface
+     *
+     * @package UniApiClient\Interfaces
+     */
     interface ExceptionInterface {
 
     }
