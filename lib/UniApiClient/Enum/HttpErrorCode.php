@@ -94,6 +94,6 @@
         // Unknown Status Code
         const UnknownStatusCode = 'Unknown Status Code';//any not listed
 
-        private function __construct(){}
+        public function __construct(){}
 
     }

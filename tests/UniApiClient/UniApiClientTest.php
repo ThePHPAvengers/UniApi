@@ -9,14 +9,21 @@
 
     class UniApiClientTest extends PHPUnit_Framework_TestCase {
 
+        protected $obj = NULL;
+
+        /**
+         * Set up test
+         */
+        protected function setUp() {
+            $this->obj = new UniApiClient\GateWay;
+        }
+
         /**
          * @test
          */
         function test()
         {
-            $gateway = new UniApiClient\GateWay;
-
-            $this->assertTrue($gateway->func());
+            $this->assertTrue($this->obj->func());
         }
     }
  
