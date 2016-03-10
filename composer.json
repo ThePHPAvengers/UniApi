@@ -19,7 +19,10 @@
   },
   "autoload": {
     "psr-4": {
-      "UniApiClient\\": "src"
+      "UniApiClient\\": "lib"
+    },
+    "psr-0": {
+      "UniApiClient": "lib"
     }
   }
 }

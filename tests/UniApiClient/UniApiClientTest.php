@@ -7,19 +7,16 @@
      * Time: 19:22
      */
 
-    namespace UniApiClient;
-
-    use UniApiClient\Gateway;
-
-    class GatewayTest extends \PHPUnit_Framework_TestCase {
+    class UniApiClientTest extends PHPUnit_Framework_TestCase {
 
         /**
          * @test
          */
         function test()
         {
-            $gateway = new Gateway;
-            assertTrue($gateway->func());
+            $gateway = new UniApiClient\GateWay;
+
+            $this->assertTrue($gateway->func());
         }
     }
  
