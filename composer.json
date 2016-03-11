@@ -3,7 +3,7 @@
   "type": "library",
   "description": "universal-api-client",
   "keywords": [ "api","client" ],
-  "homepage": "https://github.com/jkirkby91/universal-api-client",
+  "homepage": "git@github.com:jkirkby91/universal-api-client.git",
   "license": "MIT",
   "authors": [
     { "name": "jkirkby91", "email": "jkirkby91@gmail.com" }
