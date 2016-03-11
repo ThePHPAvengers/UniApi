@@ -15,7 +15,7 @@
          * Set up test
          */
         protected function setUp() {
-            $this->obj = new UniApiClient\GateWay;
+            $this->obj = new UniApiClient\UniApiClient;
         }
 
         /**

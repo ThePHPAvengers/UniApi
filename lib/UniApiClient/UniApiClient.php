@@ -14,7 +14,7 @@
      *
      * @package UniApiClient
      */
-    class GateWay
+    class UniApiClient
     {
         public function func()
         {
