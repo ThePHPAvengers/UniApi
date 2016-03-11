@@ -21,9 +21,19 @@
         /**
          * @test
          */
-        function test()
+        public function classIsInstanceOfClass()
         {
-            $this->assertTrue($this->obj->func());
+            $this->assertInstanceOf(get_class($this->obj),new UniApiClient\UniApiClient);
+        }
+
+        /**
+         * @test
+         */
+        public function classHasStaticAttributes()
+        {
+            $this->assertClassHasAttribute('registered','UniApiClient\UniApiClient');
+            $this->assertClassHasAttribute('mimeRegistrar','UniApiClient\UniApiClient');
+
         }
     }
  

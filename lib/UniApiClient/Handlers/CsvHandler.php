@@ -11,7 +11,7 @@
 
     use UniApiClient\Interfaces\HandlerInterface;
 
-    class CsvHelper extends HandlerAdapter implements HandlerInterface {
+    class CsvHandler extends HandlerAdapter implements HandlerInterface {
 
         /**
          * @param $body

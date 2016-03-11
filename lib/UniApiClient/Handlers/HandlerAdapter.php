@@ -15,6 +15,7 @@
         {
             $this->init($args);
         }
+
         /**
          * Initial setup of
          * @param array $args
@@ -22,6 +23,7 @@
         public function init(array $args)
         {
         }
+
         /**
          * @param string $body
          * @return mixed
@@ -30,6 +32,7 @@
         {
             return $body;
         }
+
         /**
          * @param mixed $payload
          * @return string
@@ -38,6 +41,12 @@
         {
             return (string) $payload;
         }
+
+        /**
+         * @param $body
+         *
+         * @return string
+         */
         protected function stripBom($body)
         {
             if ( substr($body,0,3) === "\xef\xbb\xbf" )  // UTF-8

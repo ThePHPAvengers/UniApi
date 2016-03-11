@@ -39,7 +39,7 @@
         /**
          * @return array
          */
-        public static function safeMethods()
+        public function safeMethods()
         {
             return array(self::HEAD, self::GET, self::OPTIONS, self::TRACE);
         }
@@ -49,7 +49,7 @@
          *
          * @return bool
          */
-        public static function isUnsafeMethod($method)
+        public function isUnsafeMethod($method)
         {
             return !in_array($method, self::safeMethods());
         }
