@@ -21,14 +21,16 @@
      *
      * @package UniApiClient
      */
-    class UniApiClient
+    class Gateway
     {
+        public $gateway = null;
         public $registered = false;
         private $mimeRegistrar = array();
 
-        public function __Construct()
+        public function __Construct($clientSDK)
         {
             $this->registerHandlers(new MimeTypes);
+            $this->gateway[get_class($clientSDK)] = $clientSDK;
         }
 
         /**

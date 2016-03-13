@@ -6,47 +6,50 @@
   "homepage": "https://github.com/jkirkby91/universal-api-client",
   "license": "MIT",
   "authors": [
-    { "name": "jkirkby91", "email": "jkirkby91@gmail.com" }
+    {
+      "name": "jkirkby91",
+      "email": "jkirkby91@gmail.com"
+    }
   ],
   "require": {
     "php": ">=5.5.0",
-    "guzzlehttp/guzzle": "^6.0",
+    "psr/log": "^1.0",
     "psr/http-message": "^1.0",
-    "psr/log": "^1.0"
+    "guzzlehttp/guzzle": "^6.0"
   },
   "require-dev": {
-    "codeclimate/php-test-reporter": "dev-master",
+    "raveren/kint": "^1.0",
     "phpunit/phpunit": "^4.7",
     "phpunit/dbunit": ">=1.2",
     "phpunit/php-invoker": "^1.1",
+    "lox/xhprof": "dev-master@dev",
     "phpunit/test-listener-xhprof": "dev-master",
     "vladahejda/phpunit-assert-exception": "^1.0",
-    "lox/xhprof": "dev-master@dev",
-    "raveren/kint": "^1.0"
+    "codeclimate/php-test-reporter": "dev-master"
   },
   "autoload": {
-    "psr-4": {
-      "AppNameSpace\\": "lib"
-    },
     "psr-0": {
-      "AppNameSpace": "lib"
+      "UniApiClient": "lib"
+    },
+    "psr-4": {
+      "UniApiClient\\": "lib"
     }
   },
   "scripts": {
-    "pu": [
-      "./vendor/bin/phpunit"
-    ],
-    "pu-c": [
-      "./vendor/bin/phpunit --coverage-html coverage"
+    "gpom": [
+      "@gp"
     ],
     "gaa": [
       "git add --all"
     ],
-    "gpom": [
-      "@gp"
+    "pu": [
+      "./vendor/bin/phpunit"
     ],
     "post-root-package-install": [
       "php -r \"copy('.env.example', '.env');\""
+    ],
+    "pu-c": [
+      "./vendor/bin/phpunit --coverage-html coverage"
     ],
     "build-live-project": [
       "@composerTimeout",
@@ -62,12 +65,12 @@
       "@bowerInstall",
       "@gulpBuild"
     ],
-    "composerTimeout": "composer config process-timeout 4000",
-    "composerInstallLive": "composer install --prefer-dist --no-dev",
-    "composerInstallDev": "composer install",
-    "npmInstall": "npm install -y",
-    "bowerInstall": "bower install --allow-root",
     "gulpBuild": "gulp build",
-    "gp": "git pull origin master"
+    "npmInstall": "npm install -y",
+    "gp": "git pull origin master",
+    "composerInstallDev": "composer install",
+    "bowerInstall": "bower install --allow-root",
+    "composerTimeout": "composer config process-timeout 4000",
+    "composerInstallLive": "composer install --prefer-dist --no-dev"
   }
 }

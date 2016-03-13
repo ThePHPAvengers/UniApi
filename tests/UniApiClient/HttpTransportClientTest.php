@@ -26,11 +26,36 @@
         public function checkSafeMethods()
         {
 
+            $this->obj = new UniApiClient\HttpTransportClient;
+
             $safe_methods = $this->obj->safeMethods();
 
             foreach($safe_methods as $key => $value)
             {
                 $this->assertEquals($safe_methods[$key],$this->safe_methods[$key]);
+            }
+        }
+
+        /**
+         * Check unsafe methods
+         * @test
+         */
+        public function checkUnSafeMethods()
+        {
+            $this->obj = new UniApiClient\HttpTransportClient;
+
+            $safe_methods = $this->obj->safeMethods();
+
+            foreach($this->unsafe_methods as $key => $value){
+                $this->unsafe_methods[$value] = $value;
+                unset($this->unsafe_methods[$key]);
+            }
+
+            foreach($this->unsafe_methods as $key => $value)
+            {
+                var_dump($this->unsafe_methods[$key]);
+                var_dump($this->obj->isUnsafeMethod($this->unsafe_methods[$key]));
+               // $this->assertEquals('true',$this->obj->isUnsafeMethod($this->unsafe_methods[$key]));
             }
         }
 

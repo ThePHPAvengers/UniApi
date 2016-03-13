@@ -19,7 +19,8 @@
      *
      * @package UniApiClient\Enum
      */
-    class HttpErrorCode {
+    class HttpErrorCode
+    {
 
         // 4XX Client Error Codes
         const BadRequest = 'Bad Request';//400

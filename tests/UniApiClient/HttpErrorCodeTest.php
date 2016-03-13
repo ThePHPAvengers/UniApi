@@ -12,14 +12,14 @@
         protected $obj = NULL;
 
         /**
-         * Set up test
+         * HttpErrorCodeTest
+         * 
+         * @test
          */
-        protected function setUp() {
-            $this->obj = new UniApiClient\Enum\HttpErrorCode;
-        }
-
-        public function test()
+        public function testErrorEnum()
         {
+            $this->obj = new UniApiClient\Enum\HttpErrorCode;
+
             $this->assertInstanceOf(get_class($this->obj),new UniApiClient\Enum\HttpErrorCode);
         }
     }
