@@ -9,12 +9,14 @@
 
     namespace UniApiClient;
 
-    use UniApiClient\Registry as Registry;
-    use UniApiClient\Handlers\CsvHandler;
-    use UniApiClient\Handlers\XmlHandler;
-    use UniApiClient\Handlers\JsonHandler;
-    use UniApiClient\Handlers\FormHandler;
-    use UniApiClient\Handlers\HandlerAdapter;
+    use UniApiClient\Registry\MimeTypes;
+    use GuzzleHttp\Client as GuzzleClient;
+    use UniApiClient\Helpers\MimeHandlers\CsvHandler;
+    use UniApiClient\Helpers\MimeHandlers\XmlHandler;
+    use UniApiClient\Helpers\MimeHandlers\JsonHandler;
+    use UniApiClient\Helpers\MimeHandlers\FormHandler;
+    use UniApiClient\Helpers\MimeHandlers\HandlerAdapter;
+
 
     /**
      * Class Gateway
@@ -28,7 +30,8 @@
 
         public function __Construct()
         {
-            $this->registerHandlers(new Registry\MimeTypes());
+            parent::__construct();
+            $this->registerHandlers(new MimeTypes());
         }
 
         /**
@@ -39,7 +42,6 @@
             if ($this->registered === true) {
                 return;
             }
-
             // @TODO create some kind of factory pattern
             $handlers = array(
                 $mimeTypes::JSON => new JsonHandler,

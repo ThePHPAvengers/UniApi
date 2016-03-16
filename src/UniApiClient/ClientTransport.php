@@ -14,16 +14,17 @@
     use GuzzleHttp\RequestOptions;
     use GuzzleHttp\ClientInterface;
     use Psr\Http\Message\RequestInterface;
+    use UniApiClient\Exception\HttpException;
     use UniApiClient\Helpers\TransportHelper;
     use GuzzleHttp\Exception\RequestException;
-    use UniApiClient\Exception\SingletonPatternViolationException;
+    use UniApiClient\Interfaces\TransportInterface;
 
-    class ClientTransport {
-
-        /**
-         * @var Singleton reference to singleton instance
-         */
-        private static $instance;
+    /**
+     * Class ClientTransport
+     *
+     * @package UniApiClient
+     */
+    class ClientTransport extends Client implements TransportInterface {
 
         use TransportHelper;
 
@@ -37,53 +38,85 @@
         const TRACE     = 'TRACE';
 
         /**
-         * gets the instance via lazy initialization (created on first usage).
-         *
-         * @return self
+         * @var
          */
-        public static function getInstance()
+        private $caBundle;
+
+        /** @var LoggerInterface */
+        private $logger;
+
+        /** @var RequestInterface */
+        private $lastRequest;
+
+        /** @var ResponseInterface */
+        private $lastResponse;
+
+        /**
+         * @var \GuzzleHttp\ClientInterface
+         */
+        public $transport;
+
+        /**
+         */
+        public function __construct(ClientInterface $transport)
         {
-            if (null === static::$instance) {
-                static::$instance = new static();
-            }
-            return static::$instance;
+            $this->transport = $transport;
         }
 
         /**
-         * is not allowed to call from outside: private!
+         * @return mixed
          */
-        private function __construct(){}
-
-        /**
-         * prevent the instance from being cloned.
-         *
-         * @throws SingletonPatternViolationException
-         *
-         * @return void
-         */
-        final public function __clone()
+        public function getCaBundle()
         {
-            throw new SingletonPatternViolationException('This is a Singleton. Clone is forbidden');
+            return $this->caBundle;
         }
 
         /**
-         * prevent from being unserialized.
-         *
-         * @throws SingletonPatternViolationException
-         *
-         * @return void
+         * @param $caBundle
          */
-        final public function __wakeup()
+        public function setCaBundle($caBundle)
         {
-            throw new SingletonPatternViolationException('This is a Singleton. __wakeup usage is forbidden');
+            $this->caBundle = $caBundle;
+        }
+
+        /**
+         * @return LoggerInterface
+         */
+        public function getLogger()
+        {
+            return $this->logger;
+        }
+
+        /**
+         * @param LoggerInterface $logger
+         */
+        public function setLogger(LoggerInterface $logger = null)
+        {
+            $this->logger = $logger;
+        }
+
+        /**
+         * @return RequestInterface
+         */
+        public function getLastRequest()
+        {
+            return $this->lastRequest;
+        }
+
+        /**
+         * @return ResponseInterface
+         */
+        public function getLastResponse()
+        {
+            return $this->lastResponse;
         }
 
         /**
          * @return array
          */
-        public static function safeMethods()
+        public function safeMethods()
         {
-            return array(self::HEAD, self::GET, self::OPTIONS, self::TRACE);
+            return array(self::HEAD, self::GET, self::PTIONS, self::TRACE);
         }
 
         /**
@@ -91,9 +124,9 @@
          *
          * @return bool
          */
-        public static function isUnsafeMethod($method)
+        public function isUnsafeMethod($method)
         {
-            return !in_array($method, self::safeMethods());
+            return !in_array($method, $this->safeMethods());
         }
 
         /**
@@ -102,9 +135,9 @@
          *
          * @return mixed
          */
-        public static function get($payload,$endpoint)
+        public function get($endpoint)
         {
-            return self::request(self::GET,$payload,$endpoint);
+            return $this->request(self::GET,null,$endpoint);
         }
 
         /**
@@ -113,9 +146,9 @@
          *
          * @return mixed
          */
-        public static function head($payload,$endpoint)
+        public function head($payload,$endpoint)
         {
-            return self::request(self::HEAD,$payload,$endpoint);
+            return $this->request(self::HEAD,$payload,$endpoint);
         }
 
         /**
@@ -124,9 +157,9 @@
          *
          * @return mixed
          */
-        public static function post($payload,$endpoint)
+        public function post($payload,$endpoint)
         {
-            return self::request(self::POST, $payload,$endpoint);
+            return $this->request(self::POST, $payload,$endpoint);
         }
 
         /**
@@ -135,9 +168,9 @@
          *
          * @return mixed
          */
-        public static function put($payload,$endpoint)
+        public function put($payload,$endpoint)
         {
-            return self::request(self::PUT, $payload,$endpoint);
+            return $this->request(self::PUT, $payload,$endpoint);
         }
 
         /**
@@ -146,9 +179,9 @@
          *
          * @return mixed
          */
-        public static function delete($payload,$endpoint)
+        public function delete($payload,$endpoint)
         {
-            return self::request(self::DELETE, $payload,$endpoint);
+            return $this->request(self::DELETE, $payload,$endpoint);
         }
 
         /**
@@ -157,10 +190,7 @@
          *
          * @return mixed|void
          */
-        public static function trace($payload,$endpoint)
-        {
-
-        }
+        public function trace($payload,$endpoint){}
 
         /**
          * @param $payload
@@ -168,9 +198,7 @@
          *
          * @return mixed
          */
-        public static function options($payload,$endpoint){
-
-        }
+        public function options($payload,$endpoint){}
 
         /**
          * @param $payload
@@ -178,9 +206,7 @@
          *
          * @return mixed
          */
-        public static function connect($payload,$endpoint){
-
-        }
+        public function connect($payload,$endpoint){}
 
         /**
          * @param $payload
@@ -188,9 +214,7 @@
          *
          * @return mixed
          */
-        public static function patch($payload,$endpoint){
-
-        }
+        public function patch($payload,$endpoint){}
 
         /**
          * @param $method
@@ -199,9 +223,9 @@
          *
          * @return mixed
          */
-        public static function custom($method,$payload,$endpoint)
+        public function custom($method,$payload,$endpoint)
         {
-            return self::request($method,$payload,$endpoint);
+            return $this->request($method,$payload,$endpoint);
         }
 
         /**
@@ -211,39 +235,38 @@
          *
          * @return mixed
          */
-        private static function request($method,$payload,$endpoint)
+        private function request($method,$payload,$endpoint)
         {
             if ('GET' === $method) {
-                $endpoint = self::prepareQueryString($endpoint, $payload);
+                $endpoint = $this->prepareQueryString($endpoint, $payload);
             }
-            $request = new Request($method, self::prepareUrl($endpoint));
-            return self::send($request, $payload);
+            $request = new Request($method, $this->prepareUrl($endpoint));
+            return $this->send($request, $payload);
         }
 
         /**
          * @param RequestInterface $request
-         * @param array $payload
+         * @param array $params
          *
-         * @return mixed
+         * @return \Psr\Http\Message\ResponseInterface
          * @throws
          */
-        private static function send(RequestInterface $request, $payload)
+        private function send(RequestInterface $request, array $params = [])
         {
-            self::lastRequest = $request;
-            $options = self::prepareOptions(
+            $this->lastRequest = $request;
+            $options = $this->prepareOptions(
                 $request->getMethod(),
                 $request->getRequestTarget(),
-                $payload
+                $params
             );
             try {
-                self::lastResponse = $response = self::transport->send($request, $options);
-        } catch (RequestException $e) {
+                $this->lastResponse = $response = $this->transport->send($request, $options);
+            } catch (RequestException $e) {
                 throw HttpException::wrap($e);
             }
-            if (self::logger) {
-                self::logWarnings($response);
+            if ($this->logger) {
+                $this->logWarnings($response);
             }
             return $response;
         }
-
     }

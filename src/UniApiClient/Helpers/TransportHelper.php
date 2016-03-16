@@ -22,7 +22,7 @@
          *
          * @return string
          */
-        private function prepareQueryString($path, array &$params = [])
+        public function prepareQueryString($path, array &$params = [])
         {
             if (!$params) {
                 return $path;
@@ -40,7 +40,7 @@
          *
          * @return string
          */
-        private function prepareUrl($path)
+        public function prepareUrl($path)
         {
             return $this->apiUrl.'/'.ltrim($path, '/');
         }
@@ -52,7 +52,7 @@
          *
          * @return array
          */
-        private function prepareOptions($method, $path, array $params = [])
+        public function prepareOptions($method, $path, array $params = [])
         {
             $options = [];
             if ($this->caBundle) {

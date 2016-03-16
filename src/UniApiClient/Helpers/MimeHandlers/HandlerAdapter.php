@@ -7,7 +7,7 @@
      * Time: 22:10
      */
 
-    namespace UniApiClient\Handlers;
+    namespace UniApiClient\Helpers\MimeHandlers;
 
     class HandlerAdapter {
 

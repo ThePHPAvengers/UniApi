@@ -12,7 +12,7 @@ use Psr\Http\Message\ResponseInterface;
 use UniApiClient\Helpers\ResponseHelper;
 
 
-class ClientResponse {
+class ClientResponse extends Client {
 
     use ResponseHelper;
 

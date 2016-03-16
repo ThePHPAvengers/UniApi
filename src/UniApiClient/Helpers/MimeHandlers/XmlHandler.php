@@ -7,7 +7,7 @@
      * Time: 22:09
      */
 
-    namespace UniApiClient\Handlers;
+    namespace UniApiClient\Helpers\MimeHandlers;
 
     use UniApiClient\Interfaces\HandlerInterface;
 
