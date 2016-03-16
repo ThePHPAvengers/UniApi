@@ -23,77 +23,77 @@
     {
 
         // 4XX Client Error Codes
-        const BadRequest = 'Bad Request';//400
-        const Unauthorized = 'Unauthorized';//401
-        const PaymentRequired = 'Payment Required';//402
-        const Forbidden = 'Forbidden';//403
-        const NotFound = 'Not Found';//404
-        const MethodNotAllowed = 'Method Not Allowed';//405
-        const NotAcceptable = 'Not Acceptable';//406
-        const ProxyAuthenticationRequired = 'Proxy Authentication Required';//407
-        const RequestTimeout = 'Request Timeout';//408
-        const Conflict = 'Conflict';//409
-        const Gone = 'Gone';//410
-        const LengthRequired = 'Length Required';//411
-        const PreconditionFailed = 'Precondition Failed';//412
-        const PayloadTooLarge = 'Payload Too Large';//413
-        const URITooLong = 'URI Too Long';//414
-        const UnsupportedMediaType = 'Unsupported Media Type';//415
-        const RangeNotSatisfiable = 'Range Not Satisfiable';//416
-        const ExpectationFailed = 'Expectation Failed';//417
-        const ImATeapot = "I'm a teapot";//418
-        const MisdirectedRequest = 'Misdirected Request';//421
-        const UnprocessableEntity = 'Unprocessable Entity';//422
-        const Locked = 'Locked'; //423
-        const FailedDependency = 'Failed Dependency';//424
-        const UpgradeRequired = 'Upgrade Required';//426
-        const PreconditionRequired = 'Precondition Required';//428
-        const TooManyRequests = 'Too Many Requests';//429
-        const RequestHeaderFieldsTooLarge = 'Request Header Fields Too Large';//431
+        const BADREQUEST = 'Bad Request';//400
+        const UNAUTHORIZED = 'Unauthorized';//401
+        const PAYMENTREQUIRED = 'Payment Required';//402
+        const FORBIDDEN = 'Forbidden';//403
+        const NOTFOUND = 'Not Found';//404
+        const METHODNOTALLOWED = 'Method Not Allowed';//405
+        const NOTACCEPTABLE = 'Not Acceptable';//406
+        const PROXYAUTHENTICATIONREQUIRED = 'Proxy Authentication Required';//407
+        const REQUESTTIMEOUT = 'Request Timeout';//408
+        const CONFLICT = 'Conflict';//409
+        const GONE = 'Gone';//410
+        const LENGTHREQUIRED = 'Length Required';//411
+        const PRECONDITIONFAILED = 'Precondition Failed';//412
+        const PAYLOADTOOLARGE = 'Payload Too Large';//413
+        const URITOOLONG = 'URI Too Long';//414
+        const UNSUPPORTEDMEDIATYPE = 'Unsupported Media Type';//415
+        const RANGENOTSATISFIABLE = 'Range Not Satisfiable';//416
+        const EXCEPTIONFAILED = 'Expectation Failed';//417
+        const IMATEAPOT = "I'm a teapot";//418
+        const MISREDIRECTEDREQUEST = 'Misdirected Request';//421
+        const UNPROCESSABLEENTITY = 'Unprocessable Entity';//422
+        const LOCKED = 'Locked'; //423
+        const FAILEDDEPENDACY = 'Failed Dependency';//424
+        const UPGRADEREQUIRED = 'Upgrade Required';//426
+        const PRECONDITIONREQUIRED = 'Precondition Required';//428
+        const TOOMANYREQUESTS = 'Too Many Requests';//429
+        const REQUESTHEADERFIELDSTOOLARGE = 'Request Header Fields Too Large';//431
 
         // 5XX Server Error Codes
-        const InternalServerError = 'Internal Server Error';//500
-        const NotImplemented = 'Not Implemented';//501
-        const BadGateway = 'Bad Gateway';//502
-        const ServiceUnavailable = 'Service Unavailable';//503
-        const GatewayTimeout = 'Gateway Timeout';//504
-        const VersionNotSupported = 'HTTP Version Not Supported';//505
-        const VariantAlsoNegotiates = 'Variant Also Negotiates';//506
-        const InsufficientStorage  = 'Insufficient Storage';//507
-        const LoopDetected = 'Loop Detected';//508
-        const NotExtended = 'Not Extended';//510
-        const NetworkAuthenticationRequired = 'Network Authentication Required';//511
+        const INTERNALSERVERERRO = 'Internal Server Error';//500
+        const NOTIMPLEMENTED = 'Not Implemented';//501
+        const BADGATEWAY = 'Bad Gateway';//502
+        const SERVICEUNAVALIBLE = 'Service Unavailable';//503
+        const GATEWAYTIMEOUT = 'Gateway Timeout';//504
+        const VERSIONNOTSUPPORTED = 'HTTP Version Not Supported';//505
+        const VARIANTLASONEGOTIATES = 'Variant Also Negotiates';//506
+        const INSUFFICIENTSTORAGE  = 'Insufficient Storage';//507
+        const LOOPDETECTED = 'Loop Detected';//508
+        const NOTEXTENDED = 'Not Extended';//510
+        const NETWORKAUTHENTICATIONREUIRED = 'Network Authentication Required';//511
 
         // Unofficial Codes - not specified in RFC but specific to some 3rd party web services
-        const Checkpoint = 'Checkpoint';//103
-        const MethodFailure = 'Method Failure';//420
-        const BlockedByWindowsParentalControls = 'Blocked by Windows Parental Controls';//450
-        const InvalidToken = 'Invalid Token';//498
-        const BandwidthLimitExceeded = 'Bandwidth Limit Exceeded';//509
+        const CHECKPOIINT = 'Checkpoint';//103
+        const METODFAILURE = 'Method Failure';//420
+        const BLOCKEDBYWINDOWSPARENTALCONTROLS = 'Blocked by Windows Parental Controls';//450
+        const INVALIDTOKEN = 'Invalid Token';//498
+        const BANDWIDTHLIMITEXCEEDED = 'Bandwidth Limit Exceeded';//509
 
         // IIS Web server specific codes
-        const LoginTimeout = 'Login Timeout';//440
-        const RetryWith = 'Retry With';//449
-        const UnavailableForLegalReasons =  'Unavailable for legal reasons';//451
+        const LOGINTIMEOUT = 'Login Timeout';//440
+        const RETRYWITH = 'Retry With';//449
+        const UNAVALIBLEFORLEGALREASONS =  'Unavailable for legal reasons';//451
 
         // Nginx specific error codes
-        const NoResponse = 'No Response'; //444
-        const SSLCertificateError = 'SSL Certificate Error'; //495
-        const CertificateRequired = 'SSL Certificate Required'; //496
-        const HTTPRequestSentToHTTPSPort = 'HTTP Request Sent to HTTPS Port';//497
-        const ClientClosedRequest = 'Client Closed Request';//499
+        const NORESPONSE = 'No Response'; //444
+        const SSLCERTIFICATEERROR = 'SSL Certificate Error'; //495
+        const CERTIFICATEREQUIRED = 'SSL Certificate Required'; //496
+        const HTTPSREQUESTSENTTOHTTPSPORT = 'HTTP Request Sent to HTTPS Port';//497
+        const CLIENTCLOSEDREQUEST = 'Client Closed Request';//499
 
         // Cloudlfare error codes
-        const UnknownError = 'Unknown Error';//520
-        const WebServerIsDown = 'Web Server Is Down';//521
-        const ConnectionTimedOut = 'Connection Timed Out';//522
-        const OriginIsUnreachable = 'Origin Is Unreachable';//523
-        const ATimeoutOccurred = 'A Timeout Occurred';//524
-        const SSLHandshakeFailed = 'SSL Handshake Failed';//525
-        const InvalidSSLCertificate = 'Invalid SSL Certificate';//526
+        const UNKNOWNERROR = 'Unknown Error';//520
+        const WEBSERVERISDOWN = 'Web Server Is Down';//521
+        const CONNECTIONTIMEOUT = 'Connection Timed Out';//522
+        const ORIGINISUNREACHABLE = 'Origin Is Unreachable';//523
+        const ATIMEOUTOCCURED = 'A Timeout Occurred';//524
+        const SSLHANDSHAKEFAILED = 'SSL Handshake Failed';//525
+        const InvalidSSLCeINVALIDSSLCERTIFICATErtificate = 'Invalid SSL Certificate';//526
 
         // Unknown Status Code
-        const UnknownStatusCode = 'Unknown Status Code';//any not listed
+        const UNKNOWNSTATUSCODE = 'Unknown Status Code';//any not listed
 
         public function __construct(){}
 
