@@ -47,17 +47,17 @@
          * @param string $short_name common name for mime type (e.g. json)
          * @return string full mime type (e.g. application/json)
          */
-        public static function getFullMime($short_name)
+        public static function getFullMime($shortName)
         {
-            return array_key_exists($short_name, self::$mimes) ? self::$mimes[$short_name] : $short_name;
+            return array_key_exists($shortName, self::$mimes) ? self::$mimes[$short_name] : $short_name;
         }
 
         /**
          * @param string $short_name
          * @return bool
          */
-        public static function supportsMimeType($short_name)
+        public static function supportsMimeType($shortName)
         {
-            return array_key_exists($short_name, self::$mimes);
+            return array_key_exists($shortName, self::$mimes);
         }
     }

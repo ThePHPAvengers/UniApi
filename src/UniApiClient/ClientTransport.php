@@ -190,7 +190,7 @@
          *
          * @return mixed|void
          */
-        public function trace($payload,$endpoint){}
+//        public function trace($payload,$endpoint){}
 
         /**
          * @param $payload
@@ -198,7 +198,7 @@
          *
          * @return mixed
          */
-        public function options($payload,$endpoint){}
+//        public function options($payload,$endpoint){}
 
         /**
          * @param $payload
@@ -206,7 +206,7 @@
          *
          * @return mixed
          */
-        public function connect($payload,$endpoint){}
+//        public function connect($payload,$endpoint){}
 
         /**
          * @param $payload
@@ -214,7 +214,7 @@
          *
          * @return mixed
          */
-        public function patch($payload,$endpoint){}
+//        public function patch($payload,$endpoint){}
 
         /**
          * @param $method
