@@ -9,7 +9,7 @@
 
     namespace UniApiClient;
 
-    use UniApiClient\MimeTypes;
+    use UniApiClient\Registry as Registry;
     use UniApiClient\Handlers\CsvHandler;
     use UniApiClient\Handlers\XmlHandler;
     use UniApiClient\Handlers\JsonHandler;
@@ -21,22 +21,20 @@
      *
      * @package UniApiClient
      */
-    class Gateway
+    class Gateway extends Client
     {
-        public $gateway = null;
         public $registered = false;
-        private $mimeRegistrar = array();
+        public $mimeRegistrar = array();
 
-        public function __Construct($clientSDK)
+        public function __Construct()
         {
-            $this->registerHandlers(new MimeTypes);
-            $this->gateway[get_class($clientSDK)] = $clientSDK;
+            $this->registerHandlers(new Registry\MimeTypes());
         }
 
         /**
          * Register default mime handlers.  Is idempotent.
          */
-        public function registerHandlers(MimeTypes $mimeTypes)
+        protected function registerHandlers(MimeTypes $mimeTypes)
         {
             if ($this->registered === true) {
                 return;
@@ -64,7 +62,7 @@
          * @param string $mimeType
          * @return bool
          */
-        public function hasParserRegistered($mimeType)
+        protected function hasParserRegistered($mimeType)
         {
             return isset($this->mimeRegistrar[$mimeType]);
         }
@@ -73,7 +71,7 @@
          * @param $mimeType
          * @param HandlerAdapter $handler
          */
-        public function register($mimeType, HandlerAdapter $handler)
+        protected function register($mimeType, HandlerAdapter $handler)
         {
             $this->mimeRegistrar[$mimeType] = $handler;
         }

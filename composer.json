@@ -29,10 +29,10 @@
   },
   "autoload": {
     "psr-0": {
-      "UniApiClient": "lib"
+      "UniApiClient": "src"
     },
     "psr-4": {
-      "UniApiClient\\": "lib"
+      "UniApiClient\\": "src"
     }
   },
   "scripts": {

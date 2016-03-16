@@ -7,7 +7,7 @@
      * Time: 13:37
      */
 
-    namespace UniApiClient;
+    namespace UniApiClient\Registry;
 
     class MimeTypes {
 
@@ -26,13 +26,13 @@
          * Map short name for a mime type
          * to a full proper mime type
          */
-        public static $mimes = array(
+        protected static $mimes = array(
             'json'      => self::JSON,
             'xml'       => self::XML,
             'form'      => self::FORM,
             'plain'     => self::PLAIN,
             'text'      => self::PLAIN,
-            'upload'      => self::UPLOAD,
+            'upload'    => self::UPLOAD,
             'html'      => self::HTML,
             'xhtml'     => self::XHTML,
             'js'        => self::JS,
