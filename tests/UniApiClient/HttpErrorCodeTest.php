@@ -18,9 +18,9 @@
          */
         public function testErrorEnum()
         {
-            $this->obj = new UniApiClient\Enum\HttpErrorCode;
+            $this->obj = new UniApi\Enum\HttpErrorCode;
 
-            $this->assertInstanceOf(get_class($this->obj),new UniApiClient\Enum\HttpErrorCode);
+            $this->assertInstanceOf(get_class($this->obj),new UniApi\Enum\HttpErrorCode);
         }
     }
  

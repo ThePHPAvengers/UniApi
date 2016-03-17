@@ -16,7 +16,7 @@
          * Set up test
          */
         protected function setUp() {
-            $this->obj = new UniApiClient\HttpTransportClient;
+            $this->obj = new UniApi\HttpTransportClient;
         }
 
         /**
@@ -26,7 +26,7 @@
         public function checkSafeMethods()
         {
 
-            $this->obj = new UniApiClient\HttpTransportClient;
+            $this->obj = new UniApi\HttpTransportClient;
 
             $safe_methods = $this->obj->safeMethods();
 
@@ -42,7 +42,7 @@
          */
         public function checkUnSafeMethods()
         {
-            $this->obj = new UniApiClient\HttpTransportClient;
+            $this->obj = new UniApi\HttpTransportClient;
 
             $safe_methods = $this->obj->safeMethods();
 

@@ -29,10 +29,11 @@
   },
   "autoload": {
     "psr-0": {
-      "UniApiClient": "src"
+      "UniApi": "src"
     },
     "psr-4": {
-      "UniApiClient\\": "src"
+      "UniApi\\": "src",
+      "UniApi\\ExampleSDK\\": "ExampleSDK"
     }
   },
   "scripts": {
@@ -72,5 +73,8 @@
     "bowerInstall": "bower install --allow-root",
     "composerTimeout": "composer config process-timeout 4000",
     "composerInstallLive": "composer install --prefer-dist --no-dev"
-  }
+  },
+    "supported-sdk": [
+      "ExampleSDK"
+    ]
 }

@@ -7,7 +7,7 @@
      * Time: 19:22
      */
 
-    class UniApiClientTest extends PHPUnit_Framework_TestCase {
+    class UniApiTest extends PHPUnit_Framework_TestCase {
 
         public $ExampleMockClass = null;
 
@@ -37,7 +37,7 @@
                 $cloneArguments = false,
                 $callOriginalMethods = false);
 
-            $this->obj = new UniApiClient\Gateway($this->ExampleMockClass);
+            $this->obj = new UniApi\Gateway($this->ExampleMockClass);
         }
 
         /**
@@ -45,7 +45,7 @@
          */
         public function classIsInstanceOfClass()
         {
-            $this->assertInstanceOf(get_class($this->obj),new UniApiClient\Gateway($this->ExampleMockClass));
+            $this->assertInstanceOf(get_class($this->obj),new UniApi\Gateway($this->ExampleMockClass));
         }
 
         /**
@@ -53,8 +53,8 @@
          */
         public function classHasStaticAttributes()
         {
-            $this->assertClassHasAttribute('registered','UniApiClient\Gateway');
-            $this->assertClassHasAttribute('mimeRegistrar','UniApiClient\Gateway');
+            $this->assertClassHasAttribute('registered','UniApi\Gateway');
+            $this->assertClassHasAttribute('mimeRegistrar','UniApi\Gateway');
 
         }
     }
