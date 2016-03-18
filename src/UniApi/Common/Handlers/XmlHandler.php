@@ -11,7 +11,7 @@
 
     use UniApi\Interfaces\HandlerInterface;
 
-    class XmlHandler extends HandlerAdapter implements HandlerInterface {
+    class XmlHandler implements HandlerInterface {
 
         /**
          * @param string $body

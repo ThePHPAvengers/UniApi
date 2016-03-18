@@ -47,6 +47,13 @@
             return $str;
         }
 
+        protected static function getRootNameSpace()
+        {
+            $nameSpace = explode('\\',__NAMESPACE__);
+
+            return $nameSpace[0];
+        }
+
         /**
          * @param $target
          * @param $parameters
@@ -68,8 +75,9 @@
          *
          * @return string
          */
-        public static function getGatewayShortName($className)
+        public static function getShortName($className)
         {
+            ddd(self::getRootNameSpace());
             if (0 === strpos($className, '\\')) {
                 $className = substr($className, 1);
             }
@@ -86,7 +94,7 @@
          *
          * @return string
          */
-        public static function getFacadeClassName($shortName)
+        public function getFacadeClassName($shortName)
         {
             if (0 === strpos($shortName, '\\')) {
                 return $shortName;
@@ -97,7 +105,7 @@
             if (false === strpos($psr0name, '\\')) {
                 $psr0name .= '\\';
             }
-            return '\\UniApi\\'.$psr0name.$shortName.'Facade';
+            return '\\'. __NAMESPACE__ . '\\'.$psr0name.$shortName.'Facade';
         }
 
         /**

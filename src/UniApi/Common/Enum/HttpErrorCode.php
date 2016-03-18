@@ -1,13 +1,6 @@
 <?php
 
-    /**
-     * Created by PhpStorm.
-     * User: jkirkby91
-     * Date: 10/03/2016
-     * Time: 15:14
-     */
-
-    namespace UniApi\Enum;
+    namespace UniApi\Common\Enum;
 
     /**
      * Class HttpErrorCode
@@ -17,7 +10,7 @@
      * @TODO check any other nginx status codes
      * @TODO check other web server status codes
      *
-     * @package UniApi\Enum
+     * @package UniApi\Common\Enum
      */
     class HttpErrorCode
     {

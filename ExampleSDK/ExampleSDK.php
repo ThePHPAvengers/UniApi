@@ -1,35 +1,32 @@
 <?php
 
-    /**
-     * Created by PhpStorm.
-     * User: Satoshi
-     * Date: 17/03/2016
-     * Time: 16:18
-     */
-
     namespace UniApi\ExampleSDK;
 
-    use UniApi\ExampleSDK\Request;
-    use UniApi\ExampleSDK\Response;
+    use UniApi\ExampleSDK\Message\AbstractRequest;
+    use UniApi\ExampleSDK\Message\myApiEndpointMethod;
 
-    class ExampleSDK {
+    /**
+     * Class ExampleSDK
+     *
+     * @package UniApi\ExampleSDK
+     */
+    class ExampleSDK extends AbstractRequest {
 
-        public function __construct()
+        public function __construct($httpClient)
         {
-            $this->request = new Request(new \UniApi\Common\HttpClient);
+            $this->httpClient = $httpClient;
         }
 
         /**
-         *
+         * @return myApiEndpointMethod
          */
         public function getMethodEndPoint()
         {
-            $endpoint = '';
-            $this->request->send();
+            return new myApiEndpointMethod($this->httpClient);
         }
 
         public function postMethodEndPoint($payload)
         {
-            $this->request->send();
+          //  $this->request->send();
         }
     }

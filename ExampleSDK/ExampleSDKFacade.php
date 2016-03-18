@@ -10,6 +10,7 @@
     namespace UniApi\ExampleSDK;
 
     use UniApi\Common\AbstractFacade;
+    use UniApi\Common\HttpClient;
     use UniApi\ExampleSDK\ExampleSDK;
 
     class ExampleSDKFacade extends AbstractFacade
@@ -21,13 +22,16 @@
             $this->exampleSDK = $exampleSDK;
         }
 
+        /**
+         * @return string
+         */
         public function getName()
         {
             return 'ExampleSDK';
         }
 
         /**
-         * Get the gateway parameters.
+         * Get the Facade parameters.
          *
          * @return array
          */
@@ -68,7 +72,6 @@
         {
             $this->exampleSDK->getMethodEndPoint();
             return $this;
-
         }
 
         /**

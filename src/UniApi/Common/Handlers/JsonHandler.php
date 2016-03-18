@@ -11,7 +11,7 @@
 
     use UniApi\Interfaces\HandlerInterface;
 
-    class JsonHandler extends HandlerAdapter implements HandlerInterface
+    class JsonHandler implements HandlerInterface
     {
         /**
          * @param $body

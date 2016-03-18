@@ -1,15 +1,8 @@
 <?php
 
-    /**
-     * Created by PhpStorm.
-     * User: jkirkby91
-     * Date: 11/03/2016
-     * Time: 13:37
-     */
+    namespace UniApi\Common\Handlers;
 
-    namespace UniApi\Registry;
-
-    class MimeTypes {
+    class HandlerRegistry {
 
         const JSON    = 'application/json';
         const XML     = 'application/xml';
@@ -27,33 +20,33 @@
          * to a full proper mime type
          */
         public static $mimes = array(
-            'json'      => self::JSON,
-            'xml'       => self::XML,
-            'form'      => self::FORM,
-            'plain'     => self::PLAIN,
-            'text'      => self::PLAIN,
-            'upload'      => self::UPLOAD,
-            'html'      => self::HTML,
-            'xhtml'     => self::XHTML,
-            'js'        => self::JS,
-            'javascript'=> self::JS,
-            'yaml'      => self::YAML,
-            'csv'       => self::CSV,
+            'json'          => self::JSON,
+            'xml'           => self::XML,
+            'form'          => self::FORM,
+            'plain'         => self::PLAIN,
+            'text'          => self::PLAIN,
+            'upload'        => self::UPLOAD,
+            'html'          => self::HTML,
+            'xhtml'         => self::XHTML,
+            'js'            => self::JS,
+            'javascript'    => self::JS,
+            'yaml'          => self::YAML,
+            'csv'           => self::CSV
         );
 
         /**
-         * Get the full Mime Type name from a "short name".
-         * Returns the short if no mapping was found.
-         * @param string $short_name common name for mime type (e.g. json)
-         * @return string full mime type (e.g. application/json)
+         * @param $shortName
+         *
+         * @return mixed
          */
         public static function getFullMime($shortName)
         {
-            return array_key_exists($shortName, self::$mimes) ? self::$mimes[$short_name] : $short_name;
+            return array_key_exists($shortName, self::$mimes) ? self::$mimes[$shortName] : $shortName;
         }
 
         /**
-         * @param string $short_name
+         * @param $shortName
+         *
          * @return bool
          */
         public static function supportsMimeType($shortName)

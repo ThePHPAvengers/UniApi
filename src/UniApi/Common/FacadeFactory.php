@@ -2,6 +2,7 @@
 
     namespace UniApi\Common;
 
+    use UniApi\Common\HttpClient;
     use Guzzle\Http\ClientInterface;
     use UniApi\Common\Helpers\CommonHelper;
     use UniApi\Common\Exception\RuntimeException;
@@ -24,7 +25,9 @@
 
         public function __construct()
         {
+
             $this->helper = new CommonHelper();
+            $this->httpClient = new HttpClient();
         }
 
         /**
@@ -95,7 +98,7 @@
          * @return mixed
          * @throws Exception\RuntimeException
          */
-        public function create($className, ClientInterface $httpClient = null, HttpRequest $httpRequest = null)
+        public function create($className, HttpRequest $httpRequest = null)
         {
             $facade = $this->helper->getFacadeClassName($className);
 
@@ -103,7 +106,7 @@
                 throw new RuntimeException("Class '$facade' not found");
             }
             $className = $this->helper->getSDKClassName($className);
-            return new $facade(new $className);
+            return new $facade(new $className($this->httpClient));
         }
 
         /**

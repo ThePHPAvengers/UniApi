@@ -5,10 +5,7 @@
 
     namespace UniApi\Common;
 
-    use Guzzle\Http\ClientInterface;
-    use Guzzle\Http\Client as HttpClient;
-    use Symfony\Component\HttpFoundation\ParameterBag;
-    use Symfony\Component\HttpFoundation\Request as HttpRequest;
+    use UniApi\Common\Helpers\CommonHelper;
 
     /**
      * Class AbstractFacade
@@ -25,7 +22,7 @@
         /**
          * @var \Guzzle\Http\ClientInterface
          */
-        protected $httpClient;
+        public $httpClient;
 
         /**
          * @var \Symfony\Component\HttpFoundation\Request
@@ -35,15 +32,16 @@
         /**
          * Create a new gateway instance
          *
-         * @param ClientInterface $httpClient  A Guzzle client to make API calls with
-         * @param HttpRequest     $httpRequest A Symfony HTTP request object
+         * @param ClientInterface $httpClient
          */
-        public function __construct(ClientInterface $httpClient = null, HttpRequest $httpRequest = null)
+        public function __construct(ClientInterface $httpClient)
         {
-            $this->httpClient = $httpClient ?: $this->getDefaultHttpClient();
-            $this->httpRequest = $httpRequest ?: $this->getDefaultHttpRequest();
+            $this->$httpClient = $httpClient;
+            $this->helper = new CommonHelper;
             $this->initialize();
         }
+
+        abstract public function getName();
 
         /**
          * Get the short name of the Gateway
@@ -52,7 +50,7 @@
          */
         public function getShortName()
         {
-            return Helper::getGatewayShortName(get_class($this));
+            return $this->helper->getFacadeShortName(get_class($this));
         }
 
         /**
@@ -63,7 +61,6 @@
          */
         public function initialize(array $parameters = array())
         {
-            $this->parameters = new ParameterBag;
 
             // set default parameters
             foreach ($this->getDefaultParameters() as $key => $value) {
@@ -74,7 +71,7 @@
                 }
             }
 
-            Helper::initialize($this, $parameters);
+            $this->helper->initialize($this, $parameters);
 
             return $this;
         }
@@ -141,33 +138,9 @@
          */
         protected function createRequest($class, array $parameters)
         {
-            $obj = new $class($this->httpClient, $this->httpRequest);
-
+            $className = $this->getName();
+            $obj = new $class($this->$className->httpClient, $this->httpRequest);
             return $obj->initialize(array_replace($this->getParameters(), $parameters));
         }
 
-        /**
-         * Get the global default HTTP client.
-         *
-         * @return HttpClient
-         */
-        protected function getDefaultHttpClient()
-        {
-            return new HttpClient(
-                '',
-                array(
-                    'curl.options' => array(CURLOPT_CONNECTTIMEOUT => 60),
-                )
-            );
-        }
-
-        /**
-         * Get the global default HTTP request.
-         *
-         * @return HttpRequest
-         */
-        protected function getDefaultHttpRequest()
-        {
-            return HttpRequest::createFromGlobals();
-        }
     }

@@ -1,24 +1,26 @@
 <?php
 
-    namespace UniApi;
+    namespace UniApi\Common;
 
-    use GuzzleHttp\Psr7\Request;
-    use Psr\Log\LoggerInterface;
-    use GuzzleHttp\RequestOptions;
-    use GuzzleHttp\ClientInterface;
-    use Psr\Http\Message\RequestInterface;
-    use Psr\Http\Message\ResponseInterface;
+    use GuzzleHttp;
+    use GuzzleHttp\Psr7;
     use UniApi\Common\Exception\HttpException;
     use GuzzleHttp\Exception\RequestException;
     use UniApi\Common\Message\MessageInterface;
-    use UniApi\Common\Message\HttpClientInterface;
+    use UniApi\Common\Message\HttpMethodInterface;
 
     /**
      * Class HttpClient
      *
+     *   $payload = [
+     *      'headers' => array(),
+     *      'body'    => $payloadBody,
+     *      'version' => $httpVersion
+     *   ]
+     *
      * @package UniApi
      */
-    class HttpClient extends abstractClient implements HttpClientInterface {
+    class HttpClient implements HttpMethodInterface {
 
         const HEAD      = 'HEAD';
         const GET       = 'GET';
@@ -29,9 +31,7 @@
         const OPTIONS   = 'OPTIONS';
         const TRACE     = 'TRACE';
 
-        /**
-         * @var
-         */
+        /** @var */
         private $caBundle;
 
         /** @var LoggerInterface */
@@ -43,37 +43,28 @@
         /** @var ResponseInterface */
         private $lastResponse;
 
-        /**
-         * @var \GuzzleHttp\ClientInterface
-         */
+        /** @var \GuzzleHttp\ClientInterface */
         public $transport;
 
-        /**
-         */
-        public function __construct(ClientInterface $transport)
+        /**  */
+        public function __construct()
         {
-            $this->transport = $transport;
+            $this->transport = new GuzzleHttp\Client();
         }
 
-        /**
-         * @return mixed
-         */
+        /** @return mixed */
         public function getCaBundle()
         {
             return $this->caBundle;
         }
 
-        /**
-         * @param $caBundle
-         */
+        /** @param $caBundle */
         public function setCaBundle($caBundle)
         {
             $this->caBundle = $caBundle;
         }
 
-        /**
-         * @return LoggerInterface
-         */
+        /** @return LoggerInterface */
         public function getLogger()
         {
             return $this->logger;
@@ -95,171 +86,152 @@
             return $this->lastRequest;
         }
 
-        /**
-         * @return ResponseInterface
-         */
+        /** @return ResponseInterface */
         public function getLastResponse()
         {
             return $this->lastResponse;
         }
 
         /**
-         * @return array
-         */
-        public function safeMethods()
-        {
-            return array(self::HEAD, self::GET, self::PTIONS, self::TRACE);
-        }
-
-        /**
-         * @param $method
-         *
-         * @return bool
-         */
-        public function isUnsafeMethod($method)
-        {
-            return !in_array($method, $this->safeMethods());
-        }
-
-        /**
-         * @param $payload
-         * @param $endpoint
-         *
-         * @return mixed
-         */
-        public function get($endpoint)
-        {
-            return $this->request(self::GET,null,$endpoint);
-        }
-
-        /**
-         * @param $payload
-         * @param $endpoint
-         *
-         * @return mixed
-         */
-        public function head($payload,$endpoint)
-        {
-            return $this->request(self::HEAD,$payload,$endpoint);
-        }
-
-        /**
-         * @param $payload
-         * @param $endpoint
-         *
-         * @return mixed
-         */
-        public function post($payload,$endpoint)
-        {
-            return $this->request(self::POST, $payload,$endpoint);
-        }
-
-        /**
-         * @param $payload
-         * @param $endpoint
-         *
-         * @return mixed
-         */
-        public function put($payload,$endpoint)
-        {
-            return $this->request(self::PUT, $payload,$endpoint);
-        }
-
-        /**
-         * @param $payload
-         * @param $endpoint
-         *
-         * @return mixed
-         */
-        public function delete($payload,$endpoint)
-        {
-            return $this->request(self::DELETE, $payload,$endpoint);
-        }
-
-        /**
-         * @param $payload
-         * @param $endpoint
+         * @param $uri
+         * @param array $headers
          *
          * @return mixed|void
          */
-        public function trace($payload,$endpoint){}
-
-        /**
-         * @param $payload
-         * @param $endpoint
-         *
-         * @return mixed
-         */
-        public function options($payload,$endpoint){}
-
-        /**
-         * @param $payload
-         * @param $endpoint
-         *
-         * @return mixed
-         */
-        public function connect($payload,$endpoint){}
-
-        /**
-         * @param $payload
-         * @param $endpoint
-         *
-         * @return mixed
-         */
-        public function patch($payload,$endpoint){}
-
-        /**
-         * @param $method
-         * @param $payload
-         * @param $endpoint
-         *
-         * @return mixed
-         */
-        public function custom($method,$payload,$endpoint)
+        public function get($uri,array $headers)
         {
-            return $this->request($method,$payload,$endpoint);
+            return $this->request(self::GET,$uri,$headers);
+        }
+
+        /**
+         * @param $uri
+         * @param array $headers
+         * @param $body
+         *
+         * @return mixed|void
+         */
+        public function post($uri,array $headers,$body)
+        {
+            return $this->request(self::POST,$uri,$headers,$body);
+        }
+
+        /**
+         * @param $uri
+         * @param array $headers
+         * @param $body
+         *
+         * @return mixed|void
+         */
+        public function head($uri,array $headers,$body)
+        {
+            return $this->request(self::HEAD,$uri,$headers,$body);
+        }
+
+        /**
+         * @param $uri
+         * @param array $headers
+         * @param $body
+         *
+         * @return mixed|void
+         */
+        public function put($uri,array $headers,$body)
+        {
+            return $this->request(self::PUT,$uri,$headers,$body);
+        }
+
+        /**
+         * @param $uri
+         * @param array $headers
+         * @param $body
+         *
+         * @return Psr7\Request|mixed
+         */
+        public function delete($uri,array $headers,$body)
+        {
+            return $this->request(self::DELETE,$uri,$headers,$body);
+
+        }
+
+        /**
+         * @param $uri
+         * @param array $headers
+         * @param $body
+         *
+         * @return Psr7\Request|mixed
+         */
+        public function options($uri,array $headers,$body)
+        {
+            return $this->request(self::OPTIONS,$uri,$headers,$body);
+
+        }
+
+        /**
+         * @param $uri
+         * @param array $headers
+         * @param $body
+         *
+         * @return Psr7\Request|mixed
+         */
+        public function patch($uri,array $headers,$body)
+        {
+            return $this->request(self::PATCH,$uri,$headers,$body);
+
         }
 
         /**
          * @param $method
-         * @param $endpoint
-         * @param $payload
+         * @param $uri
+         * @param array $headers
+         * @param $body
          *
-         * @return mixed
+         * @return Psr7\Request
          */
-        private function request($method,$payload,$endpoint)
+        public function custom($method,$uri,array $headers,$body)
         {
-//            if ('GET' === $method) {
-//                $endpoint = $this->prepareQueryString($endpoint, $payload);
-//            }
-            $request = new Request($method, $this->prepareUrl($endpoint));
-            return $this->send($request, $payload);
+            return $this->request($method,$uri,$headers,$body);
         }
 
         /**
-         * @param RequestInterface $request
-         * @param array $params
+         * @param $method
+         * @param $uri
+         * @param array $headers
+         * @param null $body
          *
-         * @return \Psr\Http\Message\ResponseInterface
+         * @return mixed
+         */
+        private function request($method,$uri,array $headers,$body=null)
+        {
+            return $this->send(new Psr7\Request($method,$uri,$headers,$body));
+        }
+
+        /**
+         * @param Psr7\Request $request
+         *
+         * @return mixed
          * @throws
          */
-        private function send(RequestInterface $request, $payload)
+        public function send(Psr7\Request $request)
         {
             $this->lastRequest = $request;
 
-            if(is_null($payload)){
-                $options = [];
-                //@TODO
-            }
-
             try {
-                $this->lastResponse = $response = $this->transport->send($request, $options);
+                $this->lastResponse = $response = $this->transport->send($request);
             } catch (RequestException $e) {
                 throw HttpException::wrap($e);
             }
-            if ($this->logger) {
-                $this->logWarnings($response);
-            }
+            return $this->responseAnalyser($response);
+        }
+
+        /**
+         * @param $response
+         *
+         * @return mixed
+         */
+        private function responseAnalyser($response)
+        {
+            //@TODO check response code against enums
+            //@TODO log interface
             return $response;
         }
+
     }
