@@ -27,7 +27,6 @@
          */
         protected $httpClient;
 
-
         /**
          * An associated ResponseInterface.
          *
@@ -49,20 +48,6 @@
         }
 
         /**
-         * @param $mimeShortName
-         *
-         * @return mixed
-         */
-        abstract public function setRequestContentType($mimeShortName);
-
-        /**
-         * @param $warData
-         *
-         * @return mixed
-         */
-        abstract public function payloadFactory($warData);
-
-        /**
          * Initialize the object with parameters.
          *
          * @param array $parameters
@@ -79,31 +64,5 @@
             $this->helper->initialize($this, $parameters);
 
             return $this;
-        }
-
-        /**
-         * Send the request
-         *
-         * @return ResponseInterface
-         */
-        public function send()
-        {
-            $data = $this->getData();
-
-            return $this->sendData($data);
-        }
-
-        /**
-         * Get the associated Response.
-         *
-         * @return ResponseInterface
-         */
-        public function getResponse()
-        {
-            if (null === $this->response) {
-                throw new RuntimeException('You must call send() before accessing the Response!');
-            }
-
-            return $this->response;
         }
     }

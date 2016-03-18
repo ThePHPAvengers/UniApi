@@ -7,7 +7,7 @@
      * Time: 22:08
      */
 
-    namespace UniApi\Interfaces;
+    namespace UniApi\Common\Handlers;
 
     /**
      * Interface HandlerInterface

@@ -17,6 +17,8 @@
     {
         public $exampleSDK;
 
+        public $endpoint = '/post';
+
         public function __construct(ExampleSDK $exampleSDK)
         {
             $this->exampleSDK = $exampleSDK;
@@ -31,55 +33,10 @@
         }
 
         /**
-         * Get the Facade parameters.
-         *
-         * @return array
-         */
-        public function getDefaultParameters()
-        {
-            return array(
-                'apiKey' => '',
-            );
-        }
-
-        /**
-         * Get the gateway API Key.
-         *
-         * Authentication is by means of a single secret API key set as
-         * the apiKey parameter when creating the gateway object.
-         *
-         * @return string
-         */
-        public function getApiKey()
-        {
-            return $this->getParameter('apiKey');
-        }
-
-        /**
-         * @param $value
-         *
          * @return $this
          */
-        public function setApiKey($value)
+        public function httpBinPost()
         {
-            return $this->setParameter('apiKey', $value);
-        }
-
-        /**
-         * @return $this
-         */
-        public function getMethodEndPoint()
-        {
-            $this->exampleSDK->getMethodEndPoint();
-            return $this;
-        }
-
-        /**
-         * @return $this
-         */
-        public function postMethodEndPoint()
-        {
-            $this->exampleSDK->getMethodEndPoint();
-            return $this;
+            return $this->exampleSDK->httpbinPostEndpoint();
         }
     }

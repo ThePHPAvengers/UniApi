@@ -89,5 +89,4 @@
         const UNKNOWNSTATUSCODE = 'Unknown Status Code';//any not listed
 
         public function __construct(){}
-
     }

@@ -28,25 +28,7 @@
         public function getShortName();
 
         /**
-         * Define gateway parameters, in the following format:
-         *
-         * array(
-         *     'username' => '', // string variable
-         *     'testMode' => false, // boolean variable
-         *     'landingPage' => array('billing', 'login'), // enum variable, first item is default
-         * );
-         */
-        public function getDefaultParameters();
-
-        /**
          * Initialize gateway with parameters
          */
         public function initialize(array $parameters = array());
-
-        /**
-         * Get all gateway parameters
-         *
-         * @return array
-         */
-        public function getParameters();
     }

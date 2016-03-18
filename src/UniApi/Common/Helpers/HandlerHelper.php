@@ -1,8 +1,11 @@
 <?php
 
-    namespace UniApi\Common\Handlers;
+    namespace UniApi\Common\Helpers;
 
-    class HandlerRegistry {
+    use UniApi\Common\Exception\RuntimeException;
+    use UniApi\Common\Helpers\CommonHelper;
+
+    class HandlerHelper {
 
         const JSON    = 'application/json';
         const XML     = 'application/xml';
@@ -52,5 +55,17 @@
         public static function supportsMimeType($shortName)
         {
             return array_key_exists($shortName, self::$mimes);
+        }
+
+        public static function getHandler($handlerShortName)
+        {
+            $helper = new CommonHelper;
+
+            $handlerClassName = $helper::getHandlerClassName($handlerShortName);
+
+            if (!class_exists($handlerClassName)) {
+                throw new RuntimeException("Class '$handlerClassName' not found");
+            }
+            return new $handlerClassName();
         }
     }

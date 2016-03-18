@@ -7,9 +7,9 @@
      * Time: 22:08
      */
 
-    namespace UniApi\Helpers\MimeHandlers;
+    namespace UniApi\Common\Handlers;
 
-    use UniApi\Interfaces\HandlerInterface;
+    use UniApi\Common\Handlers\HandlerInterface;
 
     class JsonHandler implements HandlerInterface
     {

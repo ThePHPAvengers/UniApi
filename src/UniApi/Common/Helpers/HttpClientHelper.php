@@ -13,6 +13,16 @@
     {
 
         /**
+         * @param $key
+         *
+         * @return mixed
+         */
+        public function getAttribute($key)
+        {
+            return $this->$key;
+        }
+
+        /**
          * Push raw options to request options
          *
          * ['key' => 'value','foo' => 'bar']
@@ -22,9 +32,14 @@
          *
          * @return int
          */
-        protected function addOptions(array $options,array $newOptions)
+        protected function setOptions(array $options,array $newOptions)
         {
             return array_push($options,$newOptions);
+        }
+
+        public function setHeaders(array $options,array $headers)
+        {
+            return array_push($options['headers'],$headers);
         }
 
         /**
@@ -37,24 +52,9 @@
          *
          * @return mixed
          */
-        protected function addCookieOption(array $options,CookieJar $cookieJar)
+        protected function setCookieOption(array $options,CookieJar $cookieJar)
         {
             return array_push($options,['cookies' => $cookieJar]);
-        }
-
-        /**
-         * Sets allow redirects to false
-         *
-         * false is the default value
-         *
-         * @param array $options
-         *
-         * @return array
-         */
-        protected function setRedirectFalseOption(array $options)
-        {
-            $options['allow_redirects'] = false;
-            return $options;
         }
 
         /**
@@ -75,8 +75,7 @@
          */
         protected function setRedirectsTrueOption(array $options,array $redirectOptions)
         {
-            $options['allow_redirects'] = $redirectOptions;
-            return $options;
+            return array_push($options['allow_redirects'],$redirectOptions);
         }
 
         /**
@@ -89,7 +88,7 @@
          *
          * @return int
          */
-        protected function addHttpAuthOption(array $options,array $credentials)
+        protected function setHttpAuthOption(array $options,array $credentials)
         {
             return array_push($options,['auth' => $credentials]);
         }
@@ -104,7 +103,7 @@
          *
          * @return int
          */
-        protected function addHttpAuthDigestOption(array $options,array $digestCredentials)
+        protected function setHttpAuthDigestOption(array $options,array $digestCredentials)
         {
             return array_push($options,['auth' => $digestCredentials]);
         }
@@ -138,6 +137,27 @@
         }
 
         /**
+         * Use to proxy request
+         *
+         *  $proxy[
+         *       'http'  => 'tcp://localhost:8125', // Use this proxy with "http"
+         *       'https' => 'tcp://localhost:9124', // Use this proxy with "https",
+         *      'no' => ['.mit.edu', 'foo.com']    // Don't use a proxy with these
+         *       ]
+         *
+         * You can provide proxy URLs that contain a scheme, username, and password. For example, "http://username:password@192.168.16.1:10".
+         *
+         * @param array $options
+         * @param array $proxy
+         *
+         * @return int
+         */
+        protected function setProxy(array $options,array $proxy)
+        {
+            return array_push($options,['proxy' => $proxy]);
+        }
+
+        /**
          * Set request to debug
          *
          * @param array $options
@@ -145,10 +165,60 @@
          *
          * @return int
          */
-        protected function setDebug(array $options,$debug)
+        protected function overwriteDebug(array $options,$debug)
         {
-            return array_push($options,['debug' => $debug]);
+            $options['debug'] = $debug;
+            return $options;
         }
 
-        protected function
+        /**
+         * @param array $options
+         * @param $bool
+         *
+         * @return array
+         */
+        protected function overwriteVerifyPeer(array $options, $bool)
+        {
+            $options['verify'] = $bool;
+            return $options;
+        }
+
+        /**
+         * @param array $options
+         * @param $version
+         *
+         * @return array
+         */
+        protected function overwriteVersion(array $options, $version)
+        {
+            $options['version'] = $version;
+            return $options;
+        }
+
+        /**
+         * Sets allow redirects to false
+         *
+         * false is the default value
+         *
+         * @param array $options
+         *
+         * @return array
+         */
+        protected function overwriteRedirectFalseOption(array $options)
+        {
+            $options['allow_redirects'] = false;
+            return $options;
+        }
+
+        /**
+         * @param array $options
+         * @param $encoding
+         *
+         * @return array
+         */
+        protected function overwriteAcceptEncodingOption(array $options,$encoding)
+        {
+            $options['Accept-Encoding'] = $encoding;
+            return $options;
+        }
     }

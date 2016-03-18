@@ -18,19 +18,12 @@
         echo $e->getMessage();
     }
 
-    d($exampleSDKClient);
+    $httpBinPost = $exampleSDKClient->httpBinPost();
 
-    //
-    try {
-        d($exampleSDKClient->getMethodEndPoint());
-    } catch (InvalidArgumentException $e) {
-        echo $e->getMessage();
-    }
 
-    d(
-        $request = $exampleSDKClient
-            ->getMethodEndPoint()
-            ->postMethodEndPoint()
-    );
 
-    d($response = $request->send());
+    d($httpBinPost);
+
+  //  $response =$exampleSDKClient->exampleSDK->httpClient->send($request);
+
+  //    d($response);

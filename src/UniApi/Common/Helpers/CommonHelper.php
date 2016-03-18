@@ -75,9 +75,8 @@
          *
          * @return string
          */
-        public static function getShortName($className)
+        public function getFacadeShortName($className)
         {
-            ddd(self::getRootNameSpace());
             if (0 === strpos($className, '\\')) {
                 $className = substr($className, 1);
             }
@@ -87,6 +86,25 @@
             }
 
             return '\\'.$className;
+        }
+
+        /**
+         * @param $shortName
+         *
+         * @return string
+         */
+        public static function getHandlerClassName($shortName)
+        {
+            if (0 === strpos($shortName, '\\')) {
+                return $shortName;
+            }
+
+            // replace underscores with namespace marker, PSR-0 style
+            $psr0name = str_replace('_', '\\', $shortName);
+            if (false === strpos($psr0name, '\\')) {
+                $psr0name .= '\\';
+            }
+            return '\\UniApi\\Common\\Handlers\\'.$shortName.'Handler';
         }
 
         /**
@@ -105,7 +123,7 @@
             if (false === strpos($psr0name, '\\')) {
                 $psr0name .= '\\';
             }
-            return '\\'. __NAMESPACE__ . '\\'.$psr0name.$shortName.'Facade';
+            return '\\UniApi\\'.$psr0name.$shortName.'Facade';
         }
 
         /**

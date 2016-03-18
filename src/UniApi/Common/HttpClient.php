@@ -4,23 +4,20 @@
 
     use GuzzleHttp;
     use GuzzleHttp\Psr7;
+    use Psr\Http\Message\ResponseInterface;
     use UniApi\Common\Exception\HttpException;
     use GuzzleHttp\Exception\RequestException;
-    use UniApi\Common\Message\MessageInterface;
+    use UniApi\Common\Helpers\HttpClientHelper;
     use UniApi\Common\Message\HttpMethodInterface;
 
     /**
      * Class HttpClient
      *
-     *   $payload = [
-     *      'headers' => array(),
-     *      'body'    => $payloadBody,
-     *      'version' => $httpVersion
-     *   ]
-     *
      * @package UniApi
      */
-    class HttpClient implements HttpMethodInterface {
+    class HttpClient implements HttpMethodInterface
+    {
+        use HttpClientHelper;
 
         const HEAD      = 'HEAD';
         const GET       = 'GET';
@@ -30,9 +27,6 @@
         const PATCH     = 'PATCH';
         const OPTIONS   = 'OPTIONS';
         const TRACE     = 'TRACE';
-
-        /** @var */
-        private $caBundle;
 
         /** @var LoggerInterface */
         private $logger;
@@ -46,41 +40,41 @@
         /** @var \GuzzleHttp\ClientInterface */
         public $transport;
 
-        /**  */
+        /**
+         * Default Options Array
+         * @var array
+         */
+        public static $defaultOptions = [
+            'headers' => [
+                'User-Agent' => 'UniApiClient/0.0.1',
+            ],
+            'debug'             => false,
+            'verify'            => true,
+            'version'           => 1.1,
+            'http_errors'       => true,
+            'allow_redirects'   => false,
+            'Accept-Encoding'   => 'gzip'
+        ];
+
+        /** @var */
+        public $options;
+
         public function __construct()
         {
+            //set default options
+            $this->options = self::$defaultOptions;
+
+            //set transport client interface
             $this->transport = new GuzzleHttp\Client();
         }
 
-        /** @return mixed */
-        public function getCaBundle()
-        {
-            return $this->caBundle;
-        }
-
-        /** @param $caBundle */
-        public function setCaBundle($caBundle)
-        {
-            $this->caBundle = $caBundle;
-        }
-
-        /** @return LoggerInterface */
-        public function getLogger()
-        {
-            return $this->logger;
-        }
-
-        /**
-         * @param LoggerInterface $logger
-         */
+        /** @param LoggerInterface $logger */
         public function setLogger(LoggerInterface $logger = null)
         {
             $this->logger = $logger;
         }
 
-        /**
-         * @return RequestInterface
-         */
+        /** @return RequestInterface */
         public function getLastRequest()
         {
             return $this->lastRequest;
@@ -149,7 +143,6 @@
         public function delete($uri,array $headers,$body)
         {
             return $this->request(self::DELETE,$uri,$headers,$body);
-
         }
 
         /**
@@ -175,7 +168,6 @@
         public function patch($uri,array $headers,$body)
         {
             return $this->request(self::PATCH,$uri,$headers,$body);
-
         }
 
         /**
@@ -217,18 +209,24 @@
             try {
                 $this->lastResponse = $response = $this->transport->send($request);
             } catch (RequestException $e) {
+                //@TODO here check status codes
                 throw HttpException::wrap($e);
             }
-            return $this->responseAnalyser($response);
+            return $response->then($this->responseAnalyser($response));
         }
 
         /**
-         * @param $response
+         * @param ResponseInterface $response
          *
-         * @return mixed
+         * @return ResponseInterface
          */
-        private function responseAnalyser($response)
+        private function responseAnalyser(ResponseInterface $response)
         {
+            $responseCode = $response->getStatusCode();
+            if($response > 200)
+            {
+
+            }
             //@TODO check response code against enums
             //@TODO log interface
             return $response;

@@ -2,44 +2,73 @@
 
     namespace UniApi\ExampleSDK\Message\Endpoints;
 
-    use UniApi\Common\Handlers\HandlerRegistry;
+    use UniApi\Common\HttpClient;
+    use UniApi\Common\Helpers\HandlerHelper;
+    use UniApi\ExampleSDK\Message\AbstractRequest;
 
     /**
      * Class httpbinPostEndpoint
      *
      * @package UniApi\ExampleSDK\Message
      */
-    class httpbinPostEndpoint extends \UniApi\ExampleSDK\Message\AbstractRequest
-    {
-        public function __construct()
-        {
-        //@TODO set request mime type
-            $this->handlerRegistry = new HandlerRegistry();
-            $this->setRequestContentType('json');
-        }
+    class httpbinPostEndpoint extends AbstractRequest implements EndpointInterface {
+
+        public $endpoint = '/post';
+        public $requestType = 'json';
+        public $responseType = 'json';
 
         /**
-         * @return mixed|void
+         * @param HttpClient $httpClient
          */
-        public function setRequestContentType($mimeShortName)
+        public function __construct(HttpClient $httpClient)
         {
-            $requestContentType = $this->handlerRegistry->getFullMime($mimeShortName);
-            //@TODO set headers
-        }
+            $this->handler = HandlerHelper::getHandler($this->requestType);
 
-        /**
-         * @return array|mixed
-         */
-        public function payloadFactory($rawData)
-        {
-            return json_encode($rawData);
+            $httpClient->setHeaders(
+                $httpClient->getAttribute('options'),
+                [
+                    'Content-Type' => HandlerHelper::getFullMime($this->requestType),
+                    'Accept'       => HandlerHelper::getFullMime($this->responseType),
+                ]
+            );
         }
 
         /**
          * @return string
          */
-        function getEndpoint()
+        public function getEndpoint()
         {
-            return $this->endpoint.'/post';
+            return $this->endpoint;
+        }
+
+        /**
+         * @param $rawPayload
+         *
+         * @return mixed
+         */
+        public function serializePayload($rawPayload)
+        {
+            return $this->handler->serialize($rawPayload);
+        }
+
+        /**
+         * @param $rawResponse
+         *
+         * @return mixed
+         */
+        public function parseResponse($rawResponse)
+        {
+            return $this->handler->parse($rawResponse);
+        }
+
+        /**
+         * @param $response
+         *
+         * @return bool
+         */
+        public function analyseResponse($response)
+        {
+            //do logic
+            return true;
         }
     }
