@@ -26,16 +26,26 @@
          */
         public function __construct(HttpClient $httpClient)
         {
-            $this->httpClient = $httpClient;
+            $this->transport = $httpClient;
 
             $this->handler = HandlerHelper::getHandler($this->requestType);
 
-            $this->httpClient->setHeaders(
-                $this->httpClient->getAttribute('options'),
+            $this->transport->setHeaders(
+                $this->transport->getAttribute('options'),
                 [
                     'Content-Type' => HandlerHelper::getFullMime($this->requestType),
                     'Accept'       => HandlerHelper::getFullMime($this->responseType),
                 ]
             );
+        }
+
+        /**
+         * @param $rawPayload
+         *
+         * @return mixed
+         */
+        public function send($rawPayload)
+        {
+            return $this->transport->post($this->getEndpoint(),[],$this->serializePayload($rawPayload));
         }
     }

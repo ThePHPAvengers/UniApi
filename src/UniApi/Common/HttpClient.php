@@ -5,7 +5,6 @@
     use GuzzleHttp;
     use GuzzleHttp\Psr7;
     use Psr\Http\Message\ResponseInterface;
-    use UniApi\Common\Exception\HttpException;
     use GuzzleHttp\Exception\RequestException;
     use UniApi\Common\Helpers\HttpClientHelper;
     use UniApi\Common\Helpers\ResponseCodeHelper;
@@ -51,7 +50,7 @@
             ],
             'debug'             => false,
             'verify'            => true,
-            'version'           => 1.1,
+            'version'           => 1.0,
             'http_errors'       => true,
             'allow_redirects'   => false,
             'Accept-Encoding'   => 'gzip'
@@ -64,8 +63,6 @@
         {
             //set default options
             $this->options = self::$defaultOptions;
-
-            //set transport client interface
             $this->transport = new GuzzleHttp\Client();
         }
 
@@ -95,7 +92,7 @@
          */
         public function get($uri,array $headers)
         {
-            return $this->request(self::GET,$uri,$headers);
+            return $this->prepareRequest(self::GET,$uri,$headers,null);
         }
 
         /**
@@ -107,7 +104,7 @@
          */
         public function post($uri,array $headers,$body)
         {
-            return $this->request(self::POST,$uri,$headers,$body);
+            return $this->prepareRequest(self::POST,$uri,$headers,$body);
         }
 
         /**
@@ -119,7 +116,7 @@
          */
         public function head($uri,array $headers,$body)
         {
-            return $this->request(self::HEAD,$uri,$headers,$body);
+            return $this->prepareRequest(self::HEAD,$uri,$headers,$body);
         }
 
         /**
@@ -131,7 +128,7 @@
          */
         public function put($uri,array $headers,$body)
         {
-            return $this->request(self::PUT,$uri,$headers,$body);
+            return $this->prepareRequest(self::PUT,$uri,$headers,$body);
         }
 
         /**
@@ -143,7 +140,7 @@
          */
         public function delete($uri,array $headers,$body)
         {
-            return $this->request(self::DELETE,$uri,$headers,$body);
+            return $this->prepareRequest(self::DELETE,$uri,$headers,$body);
         }
 
         /**
@@ -155,7 +152,7 @@
          */
         public function options($uri,array $headers,$body)
         {
-            return $this->request(self::OPTIONS,$uri,$headers,$body);
+            return $this->prepareRequest(self::OPTIONS,$uri,$headers,$body);
         }
 
         /**
@@ -167,7 +164,7 @@
          */
         public function patch($uri,array $headers,$body)
         {
-            return $this->request(self::PATCH,$uri,$headers,$body);
+            return $this->prepareRequest(self::PATCH,$uri,$headers,$body);
         }
 
         /**
@@ -180,7 +177,7 @@
          */
         public function custom($method,$uri,array $headers,$body)
         {
-            return $this->request($method,$uri,$headers,$body);
+            return $this->prepareRequest($method,$uri,$headers,$body);
         }
 
         /**
@@ -191,23 +188,22 @@
          *
          * @return mixed
          */
-        private function request($method,$uri,array $headers,$body=null)
+        private function prepareRequest($method,$uri,array $headers,$body)
         {
             try {
-                return $this->send(new Psr7\Request($method,$uri,$headers,$body));
+                return $this->sendRequest(new Psr7\Request($method,$uri,$headers,$body));
             } catch (\Exception $e)
             {
-                return json_encode(['code' => $e->getCode(),'message' => $e->getMessage()]);
+                return json_encode(['responseCode' => $e->getCode(),'responseBody' => $e->getMessage()]);
             }
         }
 
         /**
          * @param Psr7\Request $request
          *
-         * @return mixed
-         * @throws
+         * @return mixed|ResponseInterface|string
          */
-        public function send(Psr7\Request $request)
+        public function sendRequest(Psr7\Request $request)
         {
             $this->lastRequest = $request;
 
@@ -215,17 +211,16 @@
             try {
                 $this->lastResponse = $response = $this->transport->send($request);
             } catch (RequestException $e) {
-                return json_encode(['code' => $e->getCode(),'message' => $e->getMessage()]);
+                return json_encode(['responseCode' => $e->getCode(),'responseBody' => $e->getMessage()]);
             }
 
             //analyse response code
             try {
                 $this->responseCodeAnalyser($response,$request);
             } catch (\Exception $e) {
-                return json_encode(['code' => $e->getCode(),'message' => $e->getMessage()]);
-
+                return json_encode(['responseCode' => $e->getCode(),'responseBody' => $e->getMessage()]);
             }
-
-            return $response;
+            $responseBody = json_decode($response->getBody()->getContents(),true);
+            return json_encode(['responseCode' => $response->getStatusCode(),'responseBody' => json_decode($responseBody['data'],true)]);
         }
     }

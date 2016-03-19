@@ -1,12 +1,5 @@
 <?php
 
-    /**
-     * Created by PhpStorm.
-     * User: Satoshi
-     * Date: 18/03/2016
-     * Time: 16:03
-     */
-
     namespace UniApi\ExampleSDK\Message;
 
     /**
@@ -15,16 +8,6 @@
      * @package UniApi\ExampleSDK\Message
      */
     trait MessageTrait {
-
-        /**
-         * @param $rawPayload
-         *
-         * @return mixed
-         */
-        public function send($rawPayload)
-        {
-            return $this->httpClient->post($this->getEndpoint(),[],$this->serializePayload($rawPayload));
-        }
 
         /**
          * @return string
@@ -47,11 +30,11 @@
         /**
          * @param $rawResponse
          *
-         * @return mixed
+         * @return bool
          */
         public function parseResponse($rawResponse)
         {
-            return $this->handler->parse($rawResponse);
+            return $this->analyseResponse($this->handler->parse($rawResponse));
         }
 
         /**
@@ -62,7 +45,6 @@
         public function analyseResponse($response)
         {
             //do logic
-            return true;
+            return $response;
         }
-
     }

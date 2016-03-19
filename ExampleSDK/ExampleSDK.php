@@ -19,8 +19,6 @@
         }
 
         /**
-         * @param $payload
-         *
          * @return mixed|httpbinPostEndpoint
          */
         public function httpbinPostEndpoint()
