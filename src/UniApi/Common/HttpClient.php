@@ -8,16 +8,17 @@
     use UniApi\Common\Exception\HttpException;
     use GuzzleHttp\Exception\RequestException;
     use UniApi\Common\Helpers\HttpClientHelper;
+    use UniApi\Common\Helpers\ResponseCodeHelper;
     use UniApi\Common\Message\HttpMethodInterface;
 
     /**
      * Class HttpClient
      *
-     * @package UniApi
+     * @package UniApi\Common
      */
     class HttpClient implements HttpMethodInterface
     {
-        use HttpClientHelper;
+        use HttpClientHelper, ResponseCodeHelper;
 
         const HEAD      = 'HEAD';
         const GET       = 'GET';
@@ -192,7 +193,12 @@
          */
         private function request($method,$uri,array $headers,$body=null)
         {
-            return $this->send(new Psr7\Request($method,$uri,$headers,$body));
+            try {
+                return $this->send(new Psr7\Request($method,$uri,$headers,$body));
+            } catch (\Exception $e)
+            {
+                return json_encode(['code' => $e->getCode(),'message' => $e->getMessage()]);
+            }
         }
 
         /**
@@ -205,29 +211,21 @@
         {
             $this->lastRequest = $request;
 
+            //try make out request
             try {
                 $this->lastResponse = $response = $this->transport->send($request);
             } catch (RequestException $e) {
-                //@TODO here check status codes
-                throw HttpException::wrap($e);
+                return json_encode(['code' => $e->getCode(),'message' => $e->getMessage()]);
             }
-            return $this->responseAnalyser($response);
-        }
 
-        /**
-         * @param ResponseInterface $response
-         *
-         * @return ResponseInterface
-         */
-        private function responseAnalyser(ResponseInterface $response)
-        {
-            $responseCode = $response->getStatusCode();
-            if($responseCode > 200)
-            {
+            //analyse response code
+            try {
+                $this->responseCodeAnalyser($response,$request);
+            } catch (\Exception $e) {
+                return json_encode(['code' => $e->getCode(),'message' => $e->getMessage()]);
 
             }
-            //@TODO check response code against enums
-            //@TODO log interface
+
             return $response;
         }
     }

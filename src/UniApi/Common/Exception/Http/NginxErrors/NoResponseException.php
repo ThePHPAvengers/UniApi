@@ -11,6 +11,4 @@
 
     use UniApi\Common\Exception\HttpException;
 
-    class NoResponseException extends HttpException {
-
-    }
+    class NoResponseException extends HttpException {}

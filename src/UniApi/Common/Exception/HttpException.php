@@ -22,41 +22,22 @@
     class HttpException extends \RuntimeException implements ExceptionInterface
     {
 
-        private $errors;
         private $request;
         private $response;
 
         /**
          * @param string $message
-         * @param array $errors
+         * @param int $statusCode
          * @param RequestInterface $request
          * @param ResponseInterface $response
-         * @param \Exception $previous
          */
-        public function __construct($message, array $errors, RequestInterface $request, ResponseInterface $response, \Exception $previous)
+        public function __construct($message, $statusCode, RequestInterface $request, ResponseInterface $response)
         {
-            parent::__construct($message, 0, $previous);
-            $this->errors = $errors;
-            $this->request = $request;
-            $this->response = $response;
-        }
-
-        /**
-         * @return array
-         */
-        public function getErrors()
-        {
-            return $this->errors;
-        }
-
-        /**
-         * @return mixed
-         */
-        public function getError()
-        {
-            if (isset($this->errors[0])) {
-                return $this->errors[0];
-            }
+            parent::__construct($message,$statusCode);
+            $this->message      = $message;
+            $this->request      = $request;
+            $this->response     = $response;
+            $this->code         = $statusCode;
         }
 
         /**
@@ -73,13 +54,5 @@
         public function getResponse()
         {
             return $this->response;
-        }
-
-        /**
-         * @return int
-         */
-        public function getStatusCode()
-        {
-            return $this->response->getStatusCode();
         }
     }

@@ -9,24 +9,20 @@
 
     require_once(__DIR__ . '/vendor/autoload.php');
 
-    use UniApi\UniApiClient as ApiClient;
-
-    // initalise the base client
+    // initialize the base client
     try {
-        $exampleSDKClient = ApiClient::create('ExampleSDK');
+        $exampleSDKClient = \UniApi\UniApiClient::create('ExampleSDK');
     } catch (RuntimeException $e) {
         echo $e->getMessage();
     }
+    $response = $exampleSDKClient
+        ->httpBinPost()
+        ->send([
+                'foo' => 'bar',
+                'key' => 'var'
+            ]);
 
-    $rawPayload = [
-        'foo' => 'bar',
-        'key' => 'var',
-    ];
-
-    $response = $exampleSDKClient->httpBinPost()->send($rawPayload);
-
-    d($response);
-
-    //  $response =$exampleSDKClient->exampleSDK->httpClient->send($request);
-
-  //    d($response);
+    // call our method and send
+    ddd(
+$response
+    );
