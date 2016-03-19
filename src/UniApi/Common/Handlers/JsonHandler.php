@@ -19,7 +19,7 @@
          * @return mixed
          */
         public function parse($body){
-            return $body;
+            return json_decode($body,true);
         }
 
         /**
@@ -28,7 +28,7 @@
          * @return mixed
          */
         public function serialize($payload){
-            return $payload;
+            return json_encode($payload);
         }
 
     }

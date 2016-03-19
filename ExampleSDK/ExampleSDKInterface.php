@@ -1,16 +1,11 @@
 <?php
 
-    /**
-     * Created by PhpStorm.
-     * User: jkirkby91
-     * Date: 17/03/2016
-     * Time: 15:33
-     */
-
     namespace UniApi\ExampleSDK;
 
     /**
      * Interface ExampleSDKInterface
+     *
+     * Add a interface function for each method of your api
      *
      * @package ExampleSDK\Message
      */
@@ -19,11 +14,11 @@
         /**
          * @return mixed
          */
-        public function getMethodEndPoint();
+        public function httpbinPostEndpoint();
 
         /**
          * @return mixed
          */
-        public function postMethodEndPoint();
+        public function httpbinGetEndpoint();
 
     }

@@ -6,7 +6,6 @@
     use Guzzle\Http\ClientInterface;
     use UniApi\Common\Helpers\CommonHelper;
     use UniApi\Common\Exception\RuntimeException;
-    use Symfony\Component\HttpFoundation\Request as HttpRequest;
 
     /**
      * Class FacadeFactory
@@ -89,16 +88,14 @@
         }
 
         /**
-         * Create a new facade for the SDK
+         * Get the facade for SDK
          *
          * @param $className
-         * @param ClientInterface $httpClient
-         * @param HttpRequest $httpRequest
          *
          * @return mixed
          * @throws Exception\RuntimeException
          */
-        public function create($className, HttpRequest $httpRequest = null)
+        public function create($className)
         {
             $facade = $this->helper->getFacadeClassName($className);
 

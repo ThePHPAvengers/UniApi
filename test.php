@@ -18,12 +18,15 @@
         echo $e->getMessage();
     }
 
-    $httpBinPost = $exampleSDKClient->httpBinPost();
+    $rawPayload = [
+        'foo' => 'bar',
+        'key' => 'var',
+    ];
 
+    $response = $exampleSDKClient->httpBinPost()->send($rawPayload);
 
+    d($response);
 
-    d($httpBinPost);
-
-  //  $response =$exampleSDKClient->exampleSDK->httpClient->send($request);
+    //  $response =$exampleSDKClient->exampleSDK->httpClient->send($request);
 
   //    d($response);

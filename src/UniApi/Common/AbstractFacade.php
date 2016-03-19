@@ -2,11 +2,8 @@
     /**
      * Base payment gateway class
      */
-
     namespace UniApi\Common;
-
     use UniApi\Common\Helpers\CommonHelper;
-
     /**
      * Class AbstractFacade
      *
@@ -18,7 +15,6 @@
          * @var \Guzzle\Http\ClientInterface
          */
         public $httpClient;
-
         /**
          * Create a new gateway instance
          *
@@ -30,7 +26,6 @@
             $this->helper = new CommonHelper;
             $this->initialize();
         }
-
         /**
          * Get the short name of the Gateway
          *
@@ -40,7 +35,6 @@
         {
             return $this->helper->getFacadeShortName(get_class($this));
         }
-
         /**
          * Initialize this gateway with default parameters
          *
@@ -49,7 +43,6 @@
          */
         public function initialize(array $parameters = array())
         {
-
             // set default parameters
             foreach ($this->getDefaultParameters() as $key => $value) {
                 if (is_array($value)) {
@@ -58,9 +51,7 @@
                     $this->parameters->set($key, $value);
                 }
             }
-
             $this->helper->initialize($this, $parameters);
-
             return $this;
         }
     }

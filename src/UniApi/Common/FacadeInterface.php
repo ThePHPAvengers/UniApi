@@ -1,10 +1,8 @@
 <?php
     /**
-     * Payment gateway interface
+     * SDK implementation interface
      */
-
     namespace UniApi\Common;
-
     /**
      * Interface GatewayInterface
      *

@@ -4,6 +4,8 @@
 
     use UniApi\Common\HttpClient;
     use UniApi\Common\Helpers\HandlerHelper;
+    use UniApi\ExampleSDK\Message\MessageTrait;
+    use UniApi\ExampleSDK\Message\MessageInterface;
     use UniApi\ExampleSDK\Message\AbstractRequest;
 
     /**
@@ -11,9 +13,11 @@
      *
      * @package UniApi\ExampleSDK\Message
      */
-    class httpbinPostEndpoint extends AbstractRequest implements EndpointInterface {
+    class httpbinPostEndpoint extends AbstractRequest implements MessageInterface {
 
-        public $endpoint = '/post';
+        use MessageTrait;
+
+        public $endpoint = 'post';
         public $requestType = 'json';
         public $responseType = 'json';
 
@@ -22,53 +26,16 @@
          */
         public function __construct(HttpClient $httpClient)
         {
+            $this->httpClient = $httpClient;
+
             $this->handler = HandlerHelper::getHandler($this->requestType);
 
-            $httpClient->setHeaders(
-                $httpClient->getAttribute('options'),
+            $this->httpClient->setHeaders(
+                $this->httpClient->getAttribute('options'),
                 [
                     'Content-Type' => HandlerHelper::getFullMime($this->requestType),
                     'Accept'       => HandlerHelper::getFullMime($this->responseType),
                 ]
             );
-        }
-
-        /**
-         * @return string
-         */
-        public function getEndpoint()
-        {
-            return $this->endpoint;
-        }
-
-        /**
-         * @param $rawPayload
-         *
-         * @return mixed
-         */
-        public function serializePayload($rawPayload)
-        {
-            return $this->handler->serialize($rawPayload);
-        }
-
-        /**
-         * @param $rawResponse
-         *
-         * @return mixed
-         */
-        public function parseResponse($rawResponse)
-        {
-            return $this->handler->parse($rawResponse);
-        }
-
-        /**
-         * @param $response
-         *
-         * @return bool
-         */
-        public function analyseResponse($response)
-        {
-            //do logic
-            return true;
         }
     }

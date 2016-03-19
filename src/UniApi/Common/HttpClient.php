@@ -155,7 +155,6 @@
         public function options($uri,array $headers,$body)
         {
             return $this->request(self::OPTIONS,$uri,$headers,$body);
-
         }
 
         /**
@@ -212,7 +211,7 @@
                 //@TODO here check status codes
                 throw HttpException::wrap($e);
             }
-            return $response->then($this->responseAnalyser($response));
+            return $this->responseAnalyser($response);
         }
 
         /**
@@ -223,7 +222,7 @@
         private function responseAnalyser(ResponseInterface $response)
         {
             $responseCode = $response->getStatusCode();
-            if($response > 200)
+            if($responseCode > 200)
             {
 
             }
@@ -231,5 +230,4 @@
             //@TODO log interface
             return $response;
         }
-
     }

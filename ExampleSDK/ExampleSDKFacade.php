@@ -1,20 +1,15 @@
 <?php
 
-    /**
-     * Created by PhpStorm.
-     * User: Satoshi
-     * Date: 17/03/2016
-     * Time: 16:10
-     */
-
     namespace UniApi\ExampleSDK;
 
-    use UniApi\Common\AbstractFacade;
-    use UniApi\Common\HttpClient;
     use UniApi\ExampleSDK\ExampleSDK;
+    use UniApi\Common\AbstractFacade;
 
     class ExampleSDKFacade extends AbstractFacade
     {
+        /**
+         * @var ExampleSDK
+         */
         public $exampleSDK;
 
         public $endpoint = '/post';
@@ -33,7 +28,9 @@
         }
 
         /**
-         * @return $this
+         * @param $payload
+         *
+         * @return myApiEndpointMethod
          */
         public function httpBinPost()
         {

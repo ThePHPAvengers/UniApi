@@ -2,7 +2,7 @@
 
     namespace UniApi\ExampleSDK;
 
-    use UniApi\ExampleSDK\Message\AbstractRequest;
+    use UniApi\Common\FacadeFactory;
     use UniApi\ExampleSDK\Message\Endpoints\httpbinPostEndpoint;
 
     /**
@@ -10,7 +10,8 @@
      *
      * @package UniApi\ExampleSDK
      */
-    class ExampleSDK {
+    class ExampleSDK implements ExampleSDKInterface
+    {
 
         public function __construct($httpClient)
         {
@@ -18,7 +19,9 @@
         }
 
         /**
-         * @return myApiEndpointMethod
+         * @param $payload
+         *
+         * @return mixed|httpbinPostEndpoint
          */
         public function httpbinPostEndpoint()
         {
@@ -26,10 +29,7 @@
         }
 
         /**
-         * @param $payload
+         * @return mixed|void
          */
-        public function postMethodEndPoint($payload)
-        {
-          //  $this->request->send();
-        }
+        public function httpbinGetEndpoint(){}
     }
